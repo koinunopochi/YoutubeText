@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-from create_text import YoutubeText
+from create_text import YoutubeText,ReserveGpt,UseGpt
 
 app = Flask(__name__)
 
@@ -15,6 +15,8 @@ def users():
     print("POST:"+url)
     # Youtubeをテキスト化
     txt = YoutubeText(url)
+    split_docs=ReserveGpt(txt)
+    UseGpt(split_docs)
     txt_ary = txt.splitlines()
     return render_template("index.html",message = txt_ary)
 
