@@ -1,0 +1,13 @@
+<html>
+<body>
+  <form action="/">
+    <input type="url" name="url">
+    <button type="submit" formmethod="post">Submit</button>
+  </form>
+  <div>
+  {% for i in message %}
+  {{ i }}<br>
+  {% endfor %}
+  </div>
+</body>
+</html>
