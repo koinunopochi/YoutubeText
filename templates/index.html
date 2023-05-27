@@ -1,13 +1,29 @@
 <html>
+
 <body>
+  <form action="/search">
+    <input type="text" name="query">
+    <button type="submit" formmethod="post">検索</button>
+  </form>
   <form action="/">
-    <input type="url" name="url">
+    url:<input type="url" name="url"><br>
+    query:<input type="text" name="query">
     <button type="submit" formmethod="post">Submit</button>
   </form>
   <div>
-  {% for i in message %}
-  {{ i }}<br>
-  {% endfor %}
+    {% for i in message %}
+    {{ i }}<br>
+    {% endfor %}
+    {% for json in Youtube_txt %}  
+    <h3>{{ json["snippet"]["title"] }}</h3>
+    url: https://www.youtube.com/watch?v={{ json["id"]["videoId"] }}<br>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ json["id"]["videoId"] }}"
+      title="YouTube video player" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe><br>
+    {% endfor %}
+    <br>
   </div>
 </body>
+
 </html>

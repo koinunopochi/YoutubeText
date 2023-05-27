@@ -1,7 +1,9 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-from create_text import YoutubeText,ReserveGpt,UseGpt
+import create_text
+import search_youtube
+import json
 
 app = Flask(__name__)
 
@@ -12,13 +14,23 @@ def main():
 @app.route("/", methods=["POST"])
 def users():
     url = request.form["url"]
-    print("POST:"+url)
-    # Youtubeをテキスト化
-    txt = YoutubeText(url)
-    split_docs=ReserveGpt(txt)
-    UseGpt(split_docs)
-    txt_ary = txt.splitlines()
+    query = request.form["query"]
+    if query == "":
+      txt = create_text.summary(url)
+    else:
+      txt= create_text.user_query(url,query)
+    text =""
+    for i in range(len(txt["intermediate_steps"])):
+      text +=txt["intermediate_steps"][i]+"\n"
+    text = text +txt["output_text"]
+    txt_ary = text.splitlines()
     return render_template("index.html",message = txt_ary)
+
+@app.route("/search",methods=["POST"])
+def search():
+    query=request.form["query"]
+    re=search_youtube.get_video_info(query,3)
+    return render_template("index.html",Youtube_txt = re)
 
 
 if __name__ == "__main__":
