@@ -20,13 +20,14 @@ def users():
     url = request.form["url"]
     query = request.form["query"]
     id = str(uuid.uuid3(uuid.NAMESPACE_URL, url))
-    txt_storage = f"./{id}/"
+    txt_storage = f"./memory/{id}/"
+    file_path = txt_storage+id+".txt"
     if query == "":
         query = "要約してください"
-    if not os.path.exists(txt_storage+id+".txt"):#ファイルがない場合に、テキストの作成、ベクトルデータの作成を行う
+    if not os.path.exists(file_path):#ファイルがない場合に、テキストの作成、ベクトルデータの作成を行う
         txt = youtube_question.YoutubeText(url)
         os.mkdir(txt_storage)
-        youtube_question.create_file(txt_storage+id+".txt",txt)
+        youtube_question.create_file(file_path,txt)
         youtube_question.setup_data("./storage/"+id,txt_storage)
         print("ベクトルデータの作成が完了しました")
     # gptにstorageにあるデータを投げて、queryに答えてもらう
