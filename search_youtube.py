@@ -1,5 +1,7 @@
 from apiclient.discovery import build
 import os
+from dotenv import load_dotenv
+load_dotenv()
 api_key=os.getenv('google_api_key')
 
 # Youtube API settings
@@ -24,12 +26,12 @@ def get_video_info(keyword,max_num):
     )
     """
     【orderオプション】
-date – リソースを作成日の新しい順に並べます。
-rating – リソースを評価の高い順に並べます。
-relevance – リソースを検索クエリの関連性が高い順に並べます。このパラメータのデフォルト値です。
-title – リソースをタイトルのアルファベット順に並べます。
-videoCount – アップロード動画の番号順（降順）にチャンネルを並べます。
-viewCount – リソースを再生回数の多い順に並べます。
+      date – リソースを作成日の新しい順に並べます。
+      rating – リソースを評価の高い順に並べます。
+      relevance – リソースを検索クエリの関連性が高い順に並べます。このパラメータのデフォルト値です。
+      title – リソースをタイトルのアルファベット順に並べます。
+      videoCount – アップロード動画の番号順（降順）にチャンネルを並べます。
+      viewCount – リソースを再生回数の多い順に並べます。
     """
 
     # execute()で検索を実行

@@ -23,11 +23,12 @@ def YoutubeText(url):
   data = content.replace(" ","\n")
   print(data)
 
+
   # ファイル名を作成
   id = str(uuid.uuid3(uuid.NAMESPACE_URL, url)) # urlからuuidを生成,urlが一致すれば同じuuidが生成される
   filename = id + ".txt"
   # ファイルの書き込み
-  f = open("./storage/"+filename, 'w', encoding='UTF-8')
+  f = open("./data_use/"+filename, 'w', encoding='UTF-8')
   f.write(data)
   f.close()
   return data # dataを返す
@@ -56,7 +57,7 @@ def UseGpt(split_docs,query): #gptに投げて、要約をしてもらう
   return result
 
 def glob_file(id):
-  files = glob.glob("./storage/"+id+".txt")
+  files = glob.glob("./data_use/"+id+".txt")
   return files
 
 def summary(url):
@@ -64,12 +65,12 @@ def summary(url):
   if glob_file(id) == []:
     txt = YoutubeText(url)
   else:
-    with open("./storage/"+id+".txt",encoding="UTF-8") as f:
+    with open("./data_use/"+id+".txt",encoding="UTF-8") as f:
       txt = f.read()
   # print(txt)
   split_docs = ReserveGpt(txt)
   # print(split_docs) # 1000文字ごとに分割されたリストを作成
-  query = 'Youtubeから字幕データを取得したものです。要点を整理したものをリストにしたあと、要約してください'
+  query = 'Youtubeから字幕データを取得したものです。要約してください'
   re_text=UseGpt(split_docs,query)
   # print(re_text)
   return re_text
@@ -80,7 +81,7 @@ def user_query(url,query):
   if glob_file(id) == []:
     txt = YoutubeText(url)
   else:
-    with open("./storage/"+id+".txt",encoding="UTF-8") as f:
+    with open("./data_use/"+id+".txt",encoding="UTF-8") as f:
       txt = f.read()
   print(txt)
   split_docs = ReserveGpt(txt)
